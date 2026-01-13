@@ -424,7 +424,9 @@ function ArticleList() {
     <div>
       <h1>Articles</h1>
       {articles.map((article) => (
-        <p key={article.id}>ID: {article.id} - {article.title}</p>
+        <p key={article.id}>
+          <ArticleLink id={article.id} title={article.title} />
+        </p>
       ))}
     </div>
   );
