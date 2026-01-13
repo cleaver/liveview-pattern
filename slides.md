@@ -53,6 +53,7 @@ level: 2
 <v-clicks>
 
   - Assume: Some knowledge of how the web works, JavaScript, and JSON.
+  - Assume: You will ask questions.
   - Q: Who has hand coded a web page with just HTML and CSS?
   - Q: Who has developed an interactive web application **without** front-end JavaScript? EG: plain PHP.
   - Q: What's a pixel shim?
@@ -462,6 +463,7 @@ level:2
 - Complex: Front-end + Back-end code
 - Large JavaScript payload
 - CORS, etc.
+- SEO, maybe?
 
 </v-clicks>
 
@@ -563,10 +565,11 @@ level: 2
 <v-clicks>
 
   - Page is rendered on the server
+  - HTML is delivered to the browser
+  - JS library establishes a persistent websocket connection
   - State is maintained on the server in a lightweight process
-  - State changes are passed to the browser over a persistent websocket
-  - Only the changes are sent
-  - The DOM is patched as changes are received
+  - Only the changes in state are sent (JSON)
+  - JS library patches DOM as changes are received
 
 </v-clicks>
 
@@ -578,4 +581,143 @@ level: 2
 
 ## Upstream: Client -> Server
 
+<v-clicks>
 
+  - DOM elements have events bound
+    - `<form>`, `<input>`, `<button>`, etc.
+  - Event is triggered -> relayed to server via websocket
+  - Server code has event handlers to:
+    - Update state
+    - Navigate
+    - etc.
+
+</v-clicks>
+
+---
+level: 2
+---
+
+# LiveView Details
+
+Question:
+
+<v-clicks>
+
+  - Who would want this?
+  - Isn't this really complex to code?
+  - Maintain websockets for 1,000s of users? Isn't that heavy?
+  - What about latency?
+
+</v-clicks>
+
+---
+layout: section
+level: 2
+---
+
+# LiveView Demo
+
+https://github.com/cleaver/lv_test
+
+https://github.com/cleaver/sketchy_chat
+
+---
+
+# Alternatives
+
+Don't want to learn Elixir? Phoenix LiveView is not the only choice.
+
+<v-clicks>
+
+  - LiveWire (Laravel)
+  - HotWire (Ruby on Rails)
+
+</v-clicks>
+
+---
+layout: section
+level: 2
+---
+
+# But Isn't This a JavaScript Meetup?
+
+---
+level: 2
+---
+
+# LiveViewJS
+
+https://www.liveviewjs.com/
+
+<br>
+
+From Donnie Flood (https://github.com/floodfx)
+
+<v-clicks depth="2">
+
+Also:
+
+- [hotdogjs](https://github.com/floodfx/hotdogjs) - Bun-optimized
+- [undead](https://github.com/floodfx/undead) - for JVM
+
+</v-clicks>
+
+---
+level: 2
+---
+
+# LiveViewJS - Counter
+
+<div class="overflow-y-auto max-h-9/10">
+
+```javascript
+import { createLiveView, html } from "liveviewjs";
+
+export const counterLiveView = createLiveView({
+  mount: (socket) => {
+    // init state, set count to 0
+    socket.assign({ count: 0 });
+  },
+  handleEvent: (event, socket) => {
+    // handle increment and decrement events
+    const { count } = socket.context;
+    switch (event.type) {
+      case "increment":
+        socket.assign({ count: count + 1 });
+        break;
+      case "decrement":
+        socket.assign({ count: count - 1 });
+        break;
+    }
+  },
+  render: (context) => {
+    // render the view based on the state
+    const { count } = context;
+    return html`
+      <div>
+        <h1>Count is: ${count}</h1>
+        <button phx-click="decrement">-</button>
+        <button phx-click="increment">+</button>
+      </div>
+    `;
+  },
+});
+```
+
+</div>
+
+---
+layout: section
+---
+
+# Questions?
+
+---
+layout: section
+---
+
+# Links
+
+https://github.com/cleaver/liveview-pattern
+
+https://cleaver.ca/
