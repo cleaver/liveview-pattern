@@ -25,10 +25,6 @@ hideInToc: true
 
 ## (And a brief history of the web)
 
-<div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
-  Press Space for next page <carbon:arrow-right />
-</div>
-
 <div class="abs-br m-6 text-xl">
   <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
     <carbon:edit />
@@ -115,6 +111,23 @@ Before we look at the history... here's what the LiveView Pattern gives you:
 - Hybrid (LiveView, React Server Components)
 
 ---
+layout: section
+level: 2
+---
+
+# Static Web Pages
+
+---
+level: 2
+---
+
+# Static Web Pages
+
+- The World-wide Web: 1991
+- Standards: HTTP, HTML
+- Mosaic Browser: 1993
+
+---
 level: 2
 ---
 
@@ -191,6 +204,44 @@ level: 2
 </div>
 
 ---
+layout: two-cols-header
+level:2
+---
+
+# Static Web Pages
+
+::left::
+
+## Pros
+
+<v-clicks>
+
+- Dead simple
+- Fast
+- Small attack surface
+
+</v-clicks>
+
+::right::
+
+## Cons
+
+<v-clicks>
+
+- Not interactive
+- Not flexible
+- Possibly inconsistent (menus, links)
+
+</v-clicks>
+
+---
+layout: section
+level: 2
+---
+
+# Server-rendered Sites
+
+---
 level: 2
 ---
 
@@ -262,6 +313,44 @@ $result = mysql_query("SELECT id, title FROM articles");
 </body>
 </html>
 ```
+
+---
+layout: two-cols-header
+level:2
+---
+
+# Server-rendered Sites
+
+::left::
+
+## Pros
+
+<v-clicks>
+
+- Interactive
+- Consistent
+- Personalized to the User
+- Flexible, easy-to-use (WordPress)
+
+</v-clicks>
+
+::right::
+
+## Cons
+
+<v-clicks>
+
+- Limited user experience
+- Not as responsive as desktop
+
+</v-clicks>
+
+---
+layout: section
+level: 2
+---
+
+# Client-rendered Sites
 
 ---
 level: 2
@@ -343,6 +432,44 @@ function ArticleList() {
 ```
 
 ---
+layout: two-cols-header
+level:2
+---
+
+# Client-rendered Sites
+
+::left::
+
+## Pros
+
+<v-clicks>
+
+- All the good things about Server-rendered
+- Rich user experience
+- Fast!
+- Compatible with native (React Native, Flutter)
+
+</v-clicks>
+
+::right::
+
+## Cons
+
+<v-clicks>
+
+- Complex: Front-end + Back-end code
+- Large JavaScript payload
+
+</v-clicks>
+
+---
+layout: section
+level: 2
+---
+
+# Hybrid-rendered Sites
+
+---
 level: 2
 ---
 
@@ -387,6 +514,43 @@ History:
 level: 2
 ---
 
+# Phoenix LiveView - Sequence
+
+<div class="overflow-y-auto max-h-9/10">
+
+```mermaid {scale: 0.8}
+sequenceDiagram
+    autonumber
+    actor User as User/Browser
+    participant Endpoint as Phoenix Endpoint
+    participant WS as WebSocket Channel
+    participant LV as LiveView
+
+    Note over User, Endpoint: Initial HTTP request
+    User->>Endpoint: GET https://example.com/live
+    Endpoint->>LV: mount/1 + render/1
+    LV-->>Endpoint: Initial HTML
+    Endpoint-->>User: HTTP 200 OK (HTML with LiveView JS)
+
+    Note over User, WS: LiveView connects via WebSocket
+    User->>WS: Connect LiveSocket (params, session)
+    WS->>LV: mount/3 (connected) + render/1
+    LV-->>WS: Diff (JSON patch)
+    WS-->>User: Patch DOM via LiveView
+
+    Note over User, LV: User interaction
+    User->>WS: phx-click event
+    WS->>LV: handle_event/3
+    LV-->>WS: Updated diff
+    WS-->>User: Re-render changed DOM
+```
+
+</div>
+
+---
+level: 2
+---
+
 # LiveView - Receiving
 
 ## Downstream: Server -> Client
@@ -404,3 +568,11 @@ level: 2
 </v-clicks>
 
 ---
+level: 2
+---
+
+# LiveView - Sending
+
+## Upstream: Client -> Server
+
+
