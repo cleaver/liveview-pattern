@@ -1,0 +1,17 @@
+/* Reset opacity for paragraphs following headings */
+h1 + p,
+h2 + p,
+h3 + p {
+  opacity: 1 !important;
+  color: inherit !important; /* Ensures it uses the standard text color */
+}
+
+.slidev-layout h1 + p,
+.slidev-layout h1 + ul,
+.slidev-layout h1 + ol {
+  margin-top: 1.5rem;
+}
+
+.slidev-layout {
+  font-size: 1.5rem;
+}
