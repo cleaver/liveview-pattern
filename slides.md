@@ -290,7 +290,7 @@ level: 2
 
 ```php
 <?php
-mysql_connect("localhost", "username", "password") or die("Could not connect MySQL");
+mysql_connect("localhost", "username", "password") or die("Could not connect to MySQL");
 mysql_select_db("testdb") or die("Could not select database");
 
 $result = mysql_query("SELECT id, title FROM articles");
@@ -304,8 +304,7 @@ $result = mysql_query("SELECT id, title FROM articles");
   <?php
   while ($row = mysql_fetch_array($result)) {
       echo "<p>";
-      echo "ID: " . $row["id"] . "<br>";
-      echo "Title: " . $row["title"];
+      echo "<a href=\"article.php?id=" . $row["id"] . "\">" . $row["title"] . "</a>";
       echo "</p>";
   }
   ?>
@@ -342,6 +341,7 @@ level:2
 
 - Limited user experience
 - Not as responsive as desktop
+- New vulnerabilities: CSRF, XSS
 
 </v-clicks>
 
@@ -459,6 +459,7 @@ level:2
 
 - Complex: Front-end + Back-end code
 - Large JavaScript payload
+- CORS, etc.
 
 </v-clicks>
 
